@@ -12,7 +12,6 @@ import com.sbi.yono.JointAccountMS.Model.Student;
 import com.sbi.yono.JointAccountMS.Service.StudentService;
 
 @RestController
-@RequestMapping("/jointaccount")
 public class StudentController {
 
 	private StudentService studentService;
