@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.sbi.yono.JointAccountMS.Controller.StudentController;
@@ -20,31 +24,47 @@ public class StudentService {
 	public StudentService(StudentDao studentDao) {
 		this.studentDao = studentDao;
 	}
-	
+
+	@Cacheable(value = "studentCache", key = "#Id")
 	public Student getStudentData(Long Id) {
 		String methodName = "getStudentData";
-		LOGGER.info("Method Started "+methodName);
+		LOGGER.info("Method Started " + methodName);
 		LOGGER.info("Method Ended " + methodName);
 		return studentDao.getStudentData(Id);
 	}
-	
+
+	@Caching(
+			put = {
+					@CachePut(value = "studentCache", key = "#result.id")
+			}, 
+			evict = {
+					@CacheEvict(value = "allStudents", allEntries = true) 
+			}
+	)
 	public Student saveStudentData(Student requestBody) {
 		String methodName = "saveStudentData";
-		LOGGER.info("Method Started "+methodName);
+		LOGGER.info("Method Started " + methodName);
 		LOGGER.info("Method Ended " + methodName);
 		return studentDao.saveStudentData(requestBody);
 	}
-	
-	public Optional<List<Student>> getAllData(){
+
+	@Cacheable(value = "allStudents")
+	public Optional<List<Student>> getAllData() {
 		String methodName = "getAllData";
-		LOGGER.info("Method Started "+methodName);
+		LOGGER.info("Method Started " + methodName);
 		LOGGER.info("Method Ended " + methodName);
 		return studentDao.getAllData();
 	}
-	
+
+	@Caching(
+			evict = {
+					@CacheEvict(value = "studentCache", key = "#Id"),
+					@CacheEvict(value = "allStudents", allEntries = true)
+			}
+	)			
 	public String deleteData(Long Id) {
 		String methodName = "deleteData";
-		LOGGER.info("Method Started "+methodName);
+		LOGGER.info("Method Started " + methodName);
 		LOGGER.info("Method Ended " + methodName);
 		return studentDao.deleteData(Id);
 	}
