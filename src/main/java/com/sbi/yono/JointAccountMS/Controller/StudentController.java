@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sbi.yono.JointAccountMS.Model.Student;
 import com.sbi.yono.JointAccountMS.Service.StudentService;
+import com.sbi.yono.JointAccountMS.constant.Constant;
 
 @RestController
 public class StudentController {
+
 
 	private StudentService studentService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
@@ -49,6 +51,12 @@ public class StudentController {
 		} else if (null == requestBody.getTestScore() || requestBody.getTestScore().isBlank()) {
 			LOGGER.error("TestScore Not Present");
 			res.put("Error", "TestScore cannot be null");
+		} else if (null == requestBody.getMobileNo() || requestBody.getMobileNo().isBlank()) {
+			LOGGER.error("Mobile Number Not Present");
+			res.put("Error", "Mobile Number cannot be null");
+		} else if (!requestBody.getMobileNo().matches(Constant.MOBILEREGEX)) {
+			LOGGER.error("Invalid Mobile Number");
+			res.put("Error", "Mobile Number is Not Valid");
 		} else {
 			LOGGER.info("Student Data Present");
 			res.put("Response", studentService.saveStudentData(requestBody));
@@ -61,10 +69,10 @@ public class StudentController {
 	public Map<String, Object> getAllData() {
 		String methodName = "getAllData";
 		LOGGER.info("Method Started " + methodName);
-		
+
 		Map<String, Object> res = new HashMap<String, Object>();
 		res.put("Response", studentService.getAllData());
-		
+
 		LOGGER.info("Method Ended " + methodName);
 		return res;
 	}
@@ -73,7 +81,7 @@ public class StudentController {
 	public Map<String, Object> deleteData(@RequestBody Map<String, Long> requestBody) {
 		String methodName = "deleteData";
 		LOGGER.info("Method Started " + methodName);
-		
+
 		Map<String, Object> res = new HashMap<String, Object>();
 		if (null == requestBody.get("id")) {
 			LOGGER.error("ID Not Present");

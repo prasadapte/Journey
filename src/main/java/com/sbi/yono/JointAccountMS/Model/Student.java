@@ -28,7 +28,7 @@ public class Student {
 		return Name;
 	}
 	public void setName(String name) {
-		this.Name = name;
+		Name = name;
 	}
 	public String getTestScore() {
 		return TestScore;
