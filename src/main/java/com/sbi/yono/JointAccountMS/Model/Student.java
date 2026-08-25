@@ -13,9 +13,11 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	private String name;
+	private String Name;
 	private String TestScore;
+	private String MobileNo;
 	
+
 	public long getId() {
 		return Id;
 	}
@@ -23,10 +25,10 @@ public class Student {
 		Id = id;
 	}
 	public String getName() {
-		return name;
+		return Name;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.Name = name;
 	}
 	public String getTestScore() {
 		return TestScore;
@@ -34,5 +36,10 @@ public class Student {
 	public void setTestScore(String testScore) {
 		TestScore = testScore;
 	}
-	
+	public String getMobileNo() {
+		return MobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		MobileNo = mobileNo;
+	}
 }
