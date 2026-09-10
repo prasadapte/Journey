@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbi.yono.JointAccountMS.Model.Student;
@@ -15,7 +16,6 @@ import com.sbi.yono.JointAccountMS.constant.Constant;
 
 @RestController
 public class StudentController {
-
 
 	private StudentService studentService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
@@ -93,4 +93,10 @@ public class StudentController {
 		LOGGER.info("Method Ended " + methodName);
 		return res;
 	}
+
+	@PostMapping("/savedebtdetails")
+	public Map<String, Object> saveDebtDetails(@RequestBody Map<String, Object> requestBody) {
+		return studentService.saveDebtDetails(requestBody);
+	}
+
 }
